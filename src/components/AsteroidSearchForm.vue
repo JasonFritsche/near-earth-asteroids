@@ -58,7 +58,11 @@
       </v-col>
 
       <v-col cols="12" md="4">
-        <v-btn color="primary" elevation="4" :disabled="!formValid"
+        <v-btn
+          color="primary"
+          elevation="4"
+          :disabled="!formValid"
+          @click="$emit('search', { fromDate: fromDateVal, toDate: toDateVal })"
           >Search</v-btn
         >
       </v-col>
