@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const api_key = process.env.VUE_APP_NEOWS_API_KEY;
+const api_key = "guyr0tXzoGfaqAlPXnwbIP3OXdbsyLimOqCPmVa5";
 
 export async function getAsteroids(fromDate, toDate) {
   const response = await axios.get(
