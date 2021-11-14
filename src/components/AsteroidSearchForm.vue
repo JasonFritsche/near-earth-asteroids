@@ -60,11 +60,17 @@
       <v-col cols="12" md="4">
         <v-btn
           color="primary"
+          class="pr-3"
           elevation="4"
           :disabled="!formValid"
           @click="$emit('search', { fromDate: fromDateVal, toDate: toDateVal })"
           >Search</v-btn
         >
+        <v-progress-circular
+          v-if="isLoading"
+          indeterminate
+          color="purple"
+        ></v-progress-circular>
       </v-col>
     </v-row>
   </v-form>
@@ -72,6 +78,7 @@
 
 <script>
 export default {
+  props: ["isLoading"],
   data: () => ({
     fromDateMenu: false,
     fromDateVal: null,
