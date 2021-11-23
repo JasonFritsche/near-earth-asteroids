@@ -1,22 +1,15 @@
 <template>
   <div class="asteroid-results-container">
     <div class="asteroids-list">
+      <v-select :items="Object.keys(nearEarthObjects)" label="Standard" @change="onSelectChange($event)"></v-select>
+    </div>
+    <div class="asteroids-list">
       <v-card class="mx-auto" max-width="200" tile>
         <v-expansion-panels>
-          <v-expansion-panel
-            v-for="(item, date) in nearEarthObjects"
-            :key="date"
-          >
-            <v-expansion-panel-header>
-              {{ date }}
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <ul v-for="(asteroidItem, i) in item" :key="i">
-                <li @click="displayDetails(asteroidItem)">
-                  <div class="asteroid-anchor">{{ asteroidItem.name }}</div>
-                </li>
-              </ul>
-            </v-expansion-panel-content>
+          <v-expansion-panel v-for="(item, index) in objectsByDate" :key="index">
+            <div @click="displayDetails(item)">
+              {{ item.name }}
+            </div>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card>
@@ -38,27 +31,18 @@
               <td>
                 <div>
                   Estimated Min:
-                  {{
-                    selectedAsteroidData.estimated_diameter.kilometers
-                      .estimated_diameter_min
-                  }}
+                  {{ selectedAsteroidData.estimated_diameter.kilometers.estimated_diameter_min }}
                 </div>
                 <div>
                   Estimated Max:
-                  {{
-                    selectedAsteroidData.estimated_diameter.kilometers
-                      .estimated_diameter_max
-                  }}
+                  {{ selectedAsteroidData.estimated_diameter.kilometers.estimated_diameter_max }}
                 </div>
               </td>
               <td>
                 {{ selectedAsteroidData.is_potentially_hazardous_asteroid }}
               </td>
               <td>
-                {{
-                  selectedAsteroidData.close_approach_data[0]
-                    .close_approach_date
-                }}
+                {{ selectedAsteroidData.close_approach_data[0].close_approach_date }}
               </td>
             </tr>
           </tbody>
@@ -74,6 +58,7 @@ export default {
   data: () => ({
     nearEarthObjects: null,
     selectedAsteroidData: null,
+    objectsByDate: null,
   }),
   mounted() {
     this.parseAsteroidData();
@@ -89,6 +74,9 @@ export default {
     },
     displayDetails(selectedAsteroidData) {
       this.selectedAsteroidData = selectedAsteroidData;
+    },
+    onSelectChange(event) {
+      this.objectsByDate = this.nearEarthObjects[event];
     },
   },
 };
@@ -111,7 +99,5 @@ li {
 }
 .asteroid-results-container {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
 }
 </style>

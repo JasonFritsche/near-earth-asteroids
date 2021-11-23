@@ -7,10 +7,7 @@
       <AsteroidSearchForm @search="search($event)" :isLoading="isLoading" />
     </v-row>
     <v-row align="center" justify="center">
-      <p>
-        Search for near earth asteroids. Search dates must be within 7 days of
-        each other.
-      </p>
+      <p>Search for near earth asteroids. Search dates must be within 7 days of each other.</p>
     </v-row>
     <v-row v-if="asteroidData" align="center" justify="center">
       <AsteroidResults :asteroidData="asteroidData" />
@@ -37,10 +34,12 @@ export default {
       const { fromDate, toDate } = searchEvent;
       this.isLoading = true;
       // pass in fromDate and toDate to api call
-      getAsteroids(fromDate, toDate).then((res) => {
-        this.asteroidData = res;
-        this.isLoading = false;
-      });
+      getAsteroids(fromDate, toDate)
+        .then((res) => {
+          this.asteroidData = res;
+        })
+        .catch((err) => console.log(err))
+        .finally(() => (this.isLoading = false));
     },
   },
 };
